@@ -68,7 +68,7 @@ func optimizePoints(data OptimizationData) OptimizationData {
  * Prints optimization results
  */
 func printResults(data OptimizationData) {
-	/*for i, point := range data.Points {
+	for i, point := range data.Points {
 		fmt.Printf("Start point %d X %f\n", i, point.X)
 		fmt.Printf("Start point %d Y %f\n", i, point.X)
 	}
@@ -76,7 +76,7 @@ func printResults(data OptimizationData) {
 	for i, point := range data.FinalPoints {
 		fmt.Printf("End point %d X %f\n", i, point.X)
 		fmt.Printf("End point %d Y %f\n", i, point.X)
-	}*/
+	}
 
 	fmt.Printf("Duration: %d ms\n", data.Duration)
 	fmt.Printf("Iterations: %d\n\n", data.Iterations)

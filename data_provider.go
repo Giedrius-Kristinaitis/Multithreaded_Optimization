@@ -41,120 +41,120 @@ func getOptimizationData() []OptimizationData {
 		A:           10,
 		Alpha:       0.1,
 		H:           1e-6,
-		N:           7,
+		N:           9,
 		MinBound:    -10,
 		MaxBound:    10,
 		Precision:   1e-6,
 		ThreadCount: 1,
-		Points:      getRandomPoints(7, -10, 10),
+		Points:      getRandomPoints(9, -10, 10),
 	}
 
 	data[1] = OptimizationData {
 		A:           10,
 		Alpha:       0.1,
 		H:           1e-6,
-		N:           7,
+		N:           9,
 		MinBound:    -10,
 		MaxBound:    10,
 		Precision:   1e-6,
 		ThreadCount: 2,
-		Points:      getRandomPoints(7, -10, 10),
+		Points:      getRandomPoints(9, -10, 10),
 	}
 
 	data[2] = OptimizationData {
 		A:           10,
 		Alpha:       0.1,
 		H:           1e-6,
-		N:           7,
+		N:           9,
 		MinBound:    -10,
 		MaxBound:    10,
 		Precision:   1e-6,
 		ThreadCount: 3,
-		Points:      getRandomPoints(7, -10, 10),
+		Points:      getRandomPoints(9, -10, 10),
 	}
 
 	data[3] = OptimizationData {
 		A:           10,
 		Alpha:       0.1,
 		H:           1e-6,
-		N:           7,
+		N:           9,
 		MinBound:    -10,
 		MaxBound:    10,
 		Precision:   1e-6,
 		ThreadCount: 4,
-		Points:      getRandomPoints(7, -10, 10),
+		Points:      getRandomPoints(9, -10, 10),
 	}
 
 	data[4] = OptimizationData {
 		A:           10,
 		Alpha:       0.1,
 		H:           1e-6,
-		N:           7,
+		N:           9,
 		MinBound:    -10,
 		MaxBound:    10,
 		Precision:   1e-6,
 		ThreadCount: 5,
-		Points:      getRandomPoints(7, -10, 10),
+		Points:      getRandomPoints(9, -10, 10),
 	}
 
 	data[5] = OptimizationData {
 		A:           10,
 		Alpha:       0.1,
 		H:           1e-6,
-		N:           7,
+		N:           9,
 		MinBound:    -10,
 		MaxBound:    10,
 		Precision:   1e-6,
 		ThreadCount: 6,
-		Points:      getRandomPoints(7, -10, 10),
+		Points:      getRandomPoints(9, -10, 10),
 	}
 
 	data[6] = OptimizationData {
 		A:           10,
 		Alpha:       0.1,
 		H:           1e-6,
-		N:           7,
+		N:           9,
 		MinBound:    -10,
 		MaxBound:    10,
 		Precision:   1e-6,
 		ThreadCount: 7,
-		Points:      getRandomPoints(7, -10, 10),
+		Points:      getRandomPoints(9, -10, 10),
 	}
 
 	data[7] = OptimizationData {
 		A:           10,
 		Alpha:       0.1,
 		H:           1e-6,
-		N:           7,
+		N:           9,
 		MinBound:    -10,
 		MaxBound:    10,
 		Precision:   1e-6,
 		ThreadCount: 8,
-		Points:      getRandomPoints(7, -10, 10),
+		Points:      getRandomPoints(9, -10, 10),
 	}
 
 	data[8] = OptimizationData {
 		A:           10,
 		Alpha:       0.1,
 		H:           1e-6,
-		N:           7,
+		N:           9,
 		MinBound:    -10,
 		MaxBound:    10,
 		Precision:   1e-6,
 		ThreadCount: 9,
-		Points:      getRandomPoints(7, -10, 10),
+		Points:      getRandomPoints(9, -10, 10),
 	}
 
 	data[9] = OptimizationData {
 		A:           10,
 		Alpha:       0.1,
 		H:           1e-6,
-		N:           7,
+		N:           9,
 		MinBound:    -10,
 		MaxBound:    10,
 		Precision:   1e-6,
 		ThreadCount: 10,
-		Points:      getRandomPoints(7, -10, 10),
+		Points:      getRandomPoints(9, -10, 10),
 	}
 
 	return data
@@ -165,9 +165,12 @@ func getOptimizationData() []OptimizationData {
  */
 func getRandomPoints(count int, minBound, maxBound float64) []Point {
 	points := make([]Point, count)
+
+	points[0] = Point {X: 0, Y: 0}
+
 	rand.Seed(time.Now().UnixNano())
 
-	for i := 0; i < count; i++ {
+	for i := 1; i < count; i++ {
 		points[i] = Point {X: randomFloat(minBound, maxBound), Y: randomFloat(minBound, maxBound)}
 	}
 
