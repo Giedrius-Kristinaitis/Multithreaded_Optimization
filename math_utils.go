@@ -118,8 +118,15 @@ func changePointCoordinates(points []Point, gradients []Point, alpha float64) []
 	newPoints := deepCopyPointArray(points)
 
 	for index := 0; index < len(points); index++ {
-		newPoints[index].X -= alpha * gradients[index].X
-		newPoints[index].Y -= alpha * gradients[index].Y
+		gradient := make([]float64, 2)
+
+		gradient[0] = gradients[index].X
+		gradient[1] = gradients[index].Y
+
+		gradient = normalizeGradient(gradient)
+
+		newPoints[index].X -= alpha * gradient[0]
+		newPoints[index].Y -= alpha * gradient[1]
 	}
 
 	return newPoints

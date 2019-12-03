@@ -4,7 +4,7 @@ package main
  * Holds data for optimization
  */
 type OptimizationData struct {
-	A           int
+	A           float64
 	Alpha       float64
 	H           float64
 	N           int
@@ -13,6 +13,9 @@ type OptimizationData struct {
 	Precision   float64
 	ThreadCount int
 	Points      []Point
+	FinalPoints []Point
+	Duration 	int64
+	Iterations  int
 }
 
 /**
@@ -33,12 +36,120 @@ func getOptimizationData() []OptimizationData {
 		A:           10,
 		Alpha:       0.1,
 		H:           1e-6,
-		N:           5,
+		N:           10,
+		MinBound:    -10,
+		MaxBound:    10,
+		Precision:   1e-6,
+		ThreadCount: 1,
+		Points:      getRandomPoints(10, -10, 10),
+	}
+
+	data[1] = OptimizationData {
+		A:           10,
+		Alpha:       0.1,
+		H:           1e-6,
+		N:           10,
+		MinBound:    -10,
+		MaxBound:    10,
+		Precision:   1e-6,
+		ThreadCount: 2,
+		Points:      getRandomPoints(10, -10, 10),
+	}
+
+	data[2] = OptimizationData {
+		A:           10,
+		Alpha:       0.1,
+		H:           1e-6,
+		N:           10,
+		MinBound:    -10,
+		MaxBound:    10,
+		Precision:   1e-6,
+		ThreadCount: 3,
+		Points:      getRandomPoints(10, -10, 10),
+	}
+
+	data[3] = OptimizationData {
+		A:           10,
+		Alpha:       0.1,
+		H:           1e-6,
+		N:           10,
 		MinBound:    -10,
 		MaxBound:    10,
 		Precision:   1e-6,
 		ThreadCount: 4,
-		Points:      getRandomPoints(5, -10, 10),
+		Points:      getRandomPoints(10, -10, 10),
+	}
+
+	data[4] = OptimizationData {
+		A:           10,
+		Alpha:       0.1,
+		H:           1e-6,
+		N:           10,
+		MinBound:    -10,
+		MaxBound:    10,
+		Precision:   1e-6,
+		ThreadCount: 10,
+		Points:      getRandomPoints(10, -10, 10),
+	}
+
+	data[5] = OptimizationData {
+		A:           10,
+		Alpha:       0.1,
+		H:           1e-6,
+		N:           10,
+		MinBound:    -10,
+		MaxBound:    10,
+		Precision:   1e-6,
+		ThreadCount: 6,
+		Points:      getRandomPoints(10, -10, 10),
+	}
+
+	data[6] = OptimizationData {
+		A:           10,
+		Alpha:       0.1,
+		H:           1e-6,
+		N:           10,
+		MinBound:    -10,
+		MaxBound:    10,
+		Precision:   1e-6,
+		ThreadCount: 7,
+		Points:      getRandomPoints(10, -10, 10),
+	}
+
+	data[7] = OptimizationData {
+		A:           10,
+		Alpha:       0.1,
+		H:           1e-6,
+		N:           10,
+		MinBound:    -10,
+		MaxBound:    10,
+		Precision:   1e-6,
+		ThreadCount: 8,
+		Points:      getRandomPoints(10, -10, 10),
+	}
+
+	data[8] = OptimizationData {
+		A:           10,
+		Alpha:       0.1,
+		H:           1e-6,
+		N:           10,
+		MinBound:    -10,
+		MaxBound:    10,
+		Precision:   1e-6,
+		ThreadCount: 9,
+		Points:      getRandomPoints(10, -10, 10),
+	}
+
+	data[9] = OptimizationData {
+		A:           10,
+		Alpha:       0.1,
+		H:           1e-6,
+		N:           10,
+		MinBound:    -10,
+		MaxBound:    10,
+		Precision:   1e-6,
+		ThreadCount: 10,
+		Points:      getRandomPoints(10, -10, 10),
 	}
 
 	return data
