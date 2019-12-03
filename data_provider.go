@@ -1,5 +1,10 @@
 package main
 
+import (
+	"math/rand"
+	"time"
+)
+
 /**
  * Holds data for optimization
  */
@@ -160,6 +165,7 @@ func getOptimizationData() []OptimizationData {
  */
 func getRandomPoints(count int, minBound, maxBound float64) []Point {
 	points := make([]Point, count)
+	rand.Seed(time.Now().UnixNano())
 
 	for i := 0; i < count; i++ {
 		points[i] = Point {X: randomFloat(minBound, maxBound), Y: randomFloat(minBound, maxBound)}
