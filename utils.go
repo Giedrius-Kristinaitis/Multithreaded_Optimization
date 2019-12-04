@@ -3,7 +3,7 @@ package main
 /**
  * Gets a deep copy of the given point array
  *
- * (Yes, I just reinvented a wheel)
+ * (Yes, I just reinvented a wheel lmao)
  */
 func deepCopyPointArray(points []Point) []Point {
 	deepCopy := make([]Point, len(points))
