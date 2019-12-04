@@ -15,6 +15,18 @@ type GradientMessage struct {
 }
 
 /**
+ * Data passed into get point gradient method to avoid using shared memory
+ */
+type GradientDataMessage struct {
+	PointIndex	int
+	EndIndex	int
+	Points		[]Point
+	CurrentSum	float64
+	A 			float64
+	H 			float64
+}
+
+/**
  * Calculates distance between two points
  */
 func distance(x1, y1, x2, y2 float64) float64 {
@@ -50,11 +62,29 @@ func getPointDistanceSum(points []Point, a float64) float64 {
 /**
  * Gets all point gradients
  */
-func getAllPointGradients(gradientChannel chan GradientMessage, allPoints []Point, currentDistanceSum float64, h float64, a float64) []Point {
+func getAllPointGradients(gradientChannel chan GradientMessage, gradientDataChannel chan GradientDataMessage, threadCount int, allPoints []Point, currentDistanceSum float64, h float64, a float64) []Point {
 	gradients := make([]Point, len(allPoints))
 
-	for i := 0; i < len(allPoints); i++ {
-		go getPointGradient(gradientChannel, i, allPoints, currentDistanceSum, h, a)
+	for i := 0; i < threadCount; i++ {
+		go getPointGradient(gradientChannel, gradientDataChannel)
+	}
+
+	for i := 0; i < threadCount; i++ {
+		startIndex :=(len(allPoints) / threadCount) * i
+		endIndex := startIndex + (len(allPoints) / threadCount)
+
+		if len(allPoints) - endIndex < len(allPoints) / threadCount {
+			endIndex = len(allPoints) - 1
+		}
+
+		gradientDataChannel <- GradientDataMessage {
+			PointIndex: startIndex,
+			EndIndex: endIndex,
+			Points: allPoints,
+			CurrentSum: currentDistanceSum,
+			A: a,
+			H: h,
+		}
 	}
 
 	for i := 0; i < len(allPoints); i++ {
@@ -68,21 +98,25 @@ func getAllPointGradients(gradientChannel chan GradientMessage, allPoints []Poin
 /**
  * Gets the gradient vector
  */
-func getPointGradient(gradientChannel chan GradientMessage, pointIndex int, allPoints []Point, currentDistanceSum float64, h float64, a float64) {
-	newPoints := deepCopyPointArray(allPoints)
+func getPointGradient(gradientChannel chan GradientMessage, gradientDataChannel chan GradientDataMessage) {
+	gradientDataMessage := <- gradientDataChannel
 
-	newPoints[pointIndex].X += h
+	for i := gradientDataMessage.PointIndex; i <= gradientDataMessage.EndIndex; i++ {
+		newPoints := deepCopyPointArray(gradientDataMessage.Points)
 
-	distanceSumChangedX := getPointDistanceSum(newPoints, a);
-	newPoints[pointIndex].X -= h
-	newPoints[pointIndex].Y += h
+		newPoints[i].X += gradientDataMessage.H
 
-	distanceSumChangedY := getPointDistanceSum(newPoints, a)
+		distanceSumChangedX := getPointDistanceSum(newPoints, gradientDataMessage.A);
+		newPoints[i].X -= gradientDataMessage.H
+		newPoints[i].Y += gradientDataMessage.H
 
-	gradientX := (distanceSumChangedX - currentDistanceSum) / h
-	gradientY := (distanceSumChangedY - currentDistanceSum) / h
+		distanceSumChangedY := getPointDistanceSum(newPoints, gradientDataMessage.A)
 
-	gradientChannel <- GradientMessage {Index: pointIndex, X: gradientX, Y: gradientY}
+		gradientX := (distanceSumChangedX - gradientDataMessage.CurrentSum) / gradientDataMessage.H
+		gradientY := (distanceSumChangedY - gradientDataMessage.CurrentSum) / gradientDataMessage.H
+
+		gradientChannel <- GradientMessage{Index: i, X: gradientX, Y: gradientY}
+	}
 }
 
 /**

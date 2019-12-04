@@ -40,13 +40,14 @@ func optimize(data OptimizationData) {
 func optimizePoints(data OptimizationData) OptimizationData {
 	data.FinalPoints = deepCopyPointArray(data.Points)
 	gradientChannel := make(chan GradientMessage)
+	gradientDataChannel := make(chan GradientDataMessage)
 	iteration := 0
 	currentDistanceSum := getPointDistanceSum(data.FinalPoints, data.A)
 
 	for iteration <= MAX_ITERATIONS && data.Alpha > data.Precision {
 		iteration++
 
-		allGradients := getAllPointGradients(gradientChannel, data.FinalPoints, currentDistanceSum, data.H, data.A)
+		allGradients := getAllPointGradients(gradientChannel, gradientDataChannel, data.ThreadCount, data.FinalPoints, currentDistanceSum, data.H, data.A)
 		changedPoints := changePointCoordinates(data.FinalPoints, allGradients, data.Alpha)
 
 		changedDistanceSum := getPointDistanceSum(changedPoints, data.A)
